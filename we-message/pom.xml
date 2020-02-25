@@ -25,6 +25,13 @@
 			<artifactId>we-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+
 		<dependency>
 			<groupId>net.iotsite.wekit</groupId>
 			<artifactId>we-api</artifactId>

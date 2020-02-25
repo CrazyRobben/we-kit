@@ -3,7 +3,8 @@ package net.iotsite.wekit.message.controller;
 import com.alibaba.fastjson.JSONObject;
 import net.iotsite.wekit.api.api.WeQRCodeRest;
 import net.iotsite.wekit.api.api.impl.WeQRCodeRestImpl;
-import net.iotsite.wekit.common.utils.HttpUtils;
+import net.iotsite.wekit.api.dto.Limit;
+import net.iotsite.wekit.api.dto.Param;
 import net.iotsite.wekit.common.utils.Result;
 import net.iotsite.wekit.common.utils.URLUtils;
 import net.iotsite.wekit.message.service.SignatureCheckService;
@@ -78,13 +79,14 @@ public class MessageController {
      * @return
      */
     @GetMapping("/loginCode")
-    public Result qrCodeImage() throws IOException {
-        Result result = qrCodeRest.qrCode(new WeQRCodeRestImpl.Limit(300), new WeQRCodeRestImpl.Param(Long.toHexString(System.currentTimeMillis())));
+    public Result qrCodeImage() {
+        Result result = qrCodeRest.qrCode(new Limit(300), new Param(Long.toHexString(System.currentTimeMillis())));
         if (!result.isSuccess()) {
             return result;
         }
         JSONObject data = (JSONObject) result.getData();
-        data.put("qr_code_url", QR_CODE_URL + URLUtils.encode(data.getString("ticket")));
+        String url = QR_CODE_URL + URLUtils.encode(data.getString("ticket"));
+        data.put("qr_code_url", url);
         return result;
     }
 
@@ -95,7 +97,7 @@ public class MessageController {
      */
     @PostMapping("/loginCode")
     public Result qrCodeUrl() {
-        return qrCodeRest.qrCode(new WeQRCodeRestImpl.Limit(300), new WeQRCodeRestImpl.Param(Long.toHexString(System.currentTimeMillis())));
+        return qrCodeRest.qrCode(new Limit(300), new Param(Long.toHexString(System.currentTimeMillis())));
     }
 
 }
